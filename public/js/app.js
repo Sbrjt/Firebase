@@ -39,6 +39,7 @@ request.addEventListener('click', (e) => {
 	if (e.target.tagName == 'I') {
 		try {
 			addRequestCount({ id: e.target.id })
+			addRequestCount({ id: e.target.id })
 		} catch (err) {
 			console.log(err.message)
 		}
@@ -66,3 +67,8 @@ onSnapshot(collection(firestore, 'requests'), (snap) => {
 
 	document.querySelector('ul').innerHTML = html
 })
+
+setTimeout(() => {
+	addRequest({ isDummyCall: true })
+	addRequestCount({ isDummyCall: true })
+}, 60 * 1000)

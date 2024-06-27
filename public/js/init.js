@@ -9,12 +9,6 @@ let config = {
 	appId: '1:236253524864:web:4dfd9d565984190608c765'
 }
 
-// if ((location.hostname = 'localhost')) {
-// 	config = {
-// 		databaseURL: 'http://localhost:4000?ns=emulatorui'
-// 	}
-// }
-
 const app = initializeApp(config)
 
 export { app }
