@@ -1,7 +1,8 @@
 import * as functions from 'firebase-functions'
-import 'firebase-functions/logger/compat'
 import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
+import 'firebase-functions/logger/compat'
+import { log, info, debug, warn, error, write } from 'firebase-functions/logger'
 
 const app = initializeApp()
 const firestore = getFirestore(app)
@@ -40,6 +41,8 @@ const addRequest = functions.https.onCall((data, context) => {
 // increase request count
 const addRequestCount = functions.https.onCall((data, context) => {
 	console.log(data.id.length)
+	log(data.id.length)
+	log('runnning')
 
 	if (!context.auth) {
 		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
