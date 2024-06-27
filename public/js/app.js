@@ -72,4 +72,4 @@ setInterval(() => {
 	addRequest({ isDummyCall: true })
 	addRequestCount({ isDummyCall: true })
 	console.log('warm up')
-}, 60 * 1000)
+}, 10000)
