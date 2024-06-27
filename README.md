@@ -8,5 +8,5 @@ Dir structure:
     │       └── app.js
     │       
     └── functions/
-        ├── index.js
+        └── index.js
     

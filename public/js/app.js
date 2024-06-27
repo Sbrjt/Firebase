@@ -2,9 +2,11 @@ import { app } from './init.js'
 import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js'
 import { getFirestore, collection, onSnapshot, connectFirestoreEmulator } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
 
-const functions = getFunctions(app)
 const firestore = getFirestore(app)
-// connectFirestoreEmulator(db, '127.0.0.1', 5000)
+
+const functions = getFunctions(app)
+const addRequest = httpsCallable(functions, 'addRequest')
+const addRequestCount = httpsCallable(functions, 'addRequestCount')
 
 // adding request
 const requestModal = document.querySelector('.new-request')
@@ -25,8 +27,6 @@ requestModal.addEventListener('click', (e) => {
 
 // add new request to db
 requestForm.addEventListener('submit', () => {
-	const addRequest = httpsCallable(functions, 'addRequest')
-
 	addRequest({ text: requestForm.request.value })
 	requestForm.reset()
 	requestForm.querySelector('.error').textContent = ''
@@ -37,8 +37,6 @@ requestForm.addEventListener('submit', () => {
 const request = document.querySelector('ul')
 request.addEventListener('click', (e) => {
 	if (e.target.tagName == 'I') {
-		const addRequestCount = httpsCallable(functions, 'addRequestCount')
-
 		try {
 			addRequestCount({ id: e.target.id })
 		} catch (err) {
