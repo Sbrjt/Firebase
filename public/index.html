@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Your texts</title>
+
+  <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+  <link rel='stylesheet' href='styles.css'>
+
+  <script type='module' src='js/app.js' defer></script>
+  <script type='module' src='js/auth.js' defer></script>
+
+</head>
+
+<body>
+
+  <!-- auth modals -->
+  <div class='auth open'>
+    <div class='modal '>
+      <h2>Login.</h2>
+      <form class='login' onsubmit='return false'>
+        <input type='text' name='email' placeholder='Email'>
+        <input type='password' name='password' placeholder='Password'>
+        <button>Login</button>
+        <p class='error'></p>
+      </form>
+      <div>No account? <a class='switch'>Register instead</a></div>
+    </div>
+    <div class='modal'>
+      <h2>Register</h2>
+      <form class='register' onsubmit='return false'>
+        <input type='text' name='email' placeholder='Email'>
+        <input type='password' name='password' placeholder='Password'>
+        <button>Register</button>
+        <p class='error'></p>
+      </form>
+      <div>Got an account? <a class='switch'>Login instead</a></div>
+    </div>
+  </div>
+
+  <!-- new request modal -->
+  <div class='new-request'>
+    <div class='modal'>
+      <h2>Add text</h2>
+      <form onsubmit='return false'>
+        <input type='text' name='request' placeholder='Request...'>
+        <button>Submit Text</button>
+        <p class='error'></p>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <nav>
+      <a class='add-request'>add text</a>
+      <a class='sign-out'>sign out</a>
+    </nav>
+  </header>
+
+  <section class='content'>
+    <h1>Your texts</h1>
+    <ul class='request-list'>
+      <li>
+        <!-- Populated dynamically from app.js based on realtime changes -->
+      </li>
+    </ul>
+    <a class='call' href='https://github.com/Sbrjt/Firebase'>Sbrjt/Firebase</a>
+  </section>
+
+
+
+</body>
+
+</html>
