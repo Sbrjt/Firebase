@@ -20,7 +20,7 @@ const newUserSignUp = functions.auth.user().onCreate((usr) => {
 
 // adding a request
 const addRequest = functions.https.onCall((data, context) => {
-	if (!data.text) return
+	if (data.text === null) return
 
 	if (!context.auth) {
 		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
