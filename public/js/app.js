@@ -69,7 +69,7 @@ onSnapshot(collection(firestore, 'requests'), (snap) => {
 
 // warm up the firebase functions
 setInterval(() => {
-	addRequest()
-	addRequestCount()
+	addRequest({ text: '' })
+	addRequestCount({ id: '' })
 	console.log('warm up')
 }, 10000)
