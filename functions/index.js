@@ -38,13 +38,6 @@ const addRequest = functions.https.onCall((data, context) => {
 
 // increase request count
 const addRequestCount = functions.https.onCall((data, context) => {
-	console.log(data.id.length)
-
-	if (!data.id) {
-		console.log('Empty')
-		return
-	}
-
 	if (!context.auth) {
 		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
 	}
