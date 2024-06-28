@@ -19,6 +19,8 @@ const newUserSignUp = functions.auth.user().onCreate((usr) => {
 
 // adding a request
 const addRequest = functions.https.onCall((data, context) => {
+	if (data === null) return
+
 	if (!context.auth) {
 		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
 	}
@@ -35,18 +37,7 @@ const addRequest = functions.https.onCall((data, context) => {
 
 // increase request count
 const addRequestCount = functions.https.onCall((data, context) => {
-	if (data == null) {
-		console.log('data == null')
-		return
-	}
-	if (data.id == null) {
-		console.log('data.id == null')
-		return
-	}
-	if (!data) {
-		console.log('!data')
-		return
-	}
+	if (data === null) return
 
 	if (!context.auth) {
 		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
