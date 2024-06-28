@@ -2,12 +2,20 @@ import * as functions from 'firebase-functions'
 import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import 'firebase-functions/logger/compat'
-import { log, info, debug, warn, error, write } from 'firebase-functions/logger'
+import { log } from 'firebase-functions/logger'
 
 const app = initializeApp()
+
+const helloWorld = functions.https.onRequest((req, res) => {
+	console.log('Hello World')
+	log('Hello World')
+	res.send('Hello World')
+	return
+})
+
 const firestore = getFirestore(app)
 
-// create user record
+// create user record (upvotes array is unused as of now)
 const newUserSignUp = functions.auth.user().onCreate((usr) => {
 	const ref = firestore.doc(`users/${usr.uid}`)
 	ref.set({
@@ -18,7 +26,6 @@ const newUserSignUp = functions.auth.user().onCreate((usr) => {
 
 	return
 })
-// (upvotes array is unused as of now)
 
 // adding a request
 const addRequest = functions.https.onCall((data, context) => {
@@ -59,4 +66,4 @@ const addRequestCount = functions.https.onCall((data, context) => {
 	return
 })
 
-export { newUserSignUp, addRequest, addRequestCount }
+export { newUserSignUp, addRequest, addRequestCount, helloWorld }
