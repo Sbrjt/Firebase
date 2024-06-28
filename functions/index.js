@@ -19,10 +19,9 @@ const newUserSignUp = functions.auth.user().onCreate((usr) => {
 
 // adding a request
 const addRequest = functions.https.onCall((data, context) => {
-	if (data === null) return
-
-	if (!context.auth) {
-		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
+	if (data === null) {
+		console.log('Warm up')
+		return
 	}
 
 	firestore.collection('requests').add({
@@ -37,7 +36,10 @@ const addRequest = functions.https.onCall((data, context) => {
 
 // increase request count
 const addRequestCount = functions.https.onCall((data, context) => {
-	if (data === null) return
+	if (data === null) {
+		console.log('Warm up')
+		return
+	}
 
 	if (!context.auth) {
 		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
