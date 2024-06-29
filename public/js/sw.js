@@ -1,12 +1,13 @@
 self.addEventListener('push', (e) => {
 	const notif = e.data.json().notification
+	const data = e.data.json().data
 
 	e.waitUntil(
 		self.registration.showNotification(notif.title, {
 			body: notif.body,
 			icon: notif.image,
 			data: {
-				url: notif.click_action
+				url: data.url
 			}
 		})
 	)

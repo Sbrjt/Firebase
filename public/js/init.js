@@ -1,6 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js'
-import { getPerformance } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-performance.js'
+import { getMessaging, getToken } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js'
 
 let config = {
 	apiKey: 'AIzaSyCw3FBktOtoOfr44cDBdIKJrmuHYnW2TqE',
@@ -12,7 +11,22 @@ let config = {
 }
 
 const app = initializeApp(config)
-const analytics = getAnalytics(app)
-const perf = getPerformance(app)
 
 export { app }
+
+// for getting notification
+const messaging = getMessaging(app)
+;(async () => {
+	try {
+		const registration = await navigator.serviceWorker.register('js/sw.js')
+
+		const currentToken = await getToken(messaging, {
+			serviceWorkerRegistration: registration,
+			vapidKey: 'BFmRzZwDy_YuE6JFHfliputE_SwNWuMazCokkIt107tN8Ccwis3b0jZJtBvbO85YmNTIJkwCRRFbqpL02P5Ru2I'
+		})
+
+		console.log('Token: ' + currentToken)
+	} catch (err) {
+		console.log(err)
+	}
+})()

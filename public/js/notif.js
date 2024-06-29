@@ -4,7 +4,7 @@ import { getMessaging, getToken } from 'https://www.gstatic.com/firebasejs/10.12
 const messaging = getMessaging(app)
 ;(async () => {
 	try {
-		const registration = await navigator.serviceWorker.register('sw.js')
+		const registration = await navigator.serviceWorker.register('js/sw.js')
 
 		const currentToken = await getToken(messaging, {
 			serviceWorkerRegistration: registration,
