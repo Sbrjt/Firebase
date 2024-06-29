@@ -1,4 +1,5 @@
-import * as functions from 'firebase-functions'
+import { https } from 'firebase-functions/v2/functions'
+import { auth } from 'firebase-functions/functions'
 import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 
@@ -6,7 +7,7 @@ const app = initializeApp()
 const firestore = getFirestore(app)
 
 // create user record (upvotes array is unused as of now)
-const newUserSignUp = functions.auth.user().onCreate((usr) => {
+const newUserSignUp = auth.user().onCreate((usr) => {
 	firestore.doc(`users/${usr.uid}`).set({
 		email: usr.email,
 		upvotedOn: []
@@ -18,7 +19,7 @@ const newUserSignUp = functions.auth.user().onCreate((usr) => {
 })
 
 // adding a request
-const addRequest = functions.https.onCall((data, context) => {
+const addRequest = https.onCall((data, context) => {
 	if (data === null) {
 		console.log('Warm up')
 		return
@@ -35,14 +36,14 @@ const addRequest = functions.https.onCall((data, context) => {
 })
 
 // increase request count
-const addRequestCount = functions.https.onCall((data, context) => {
+const addRequestCount = https.onCall((data, context) => {
 	if (data === null) {
 		console.log('Warm up')
 		return
 	}
 
 	if (!context.auth) {
-		throw new functions.https.HttpsError('unauthenticated', 'only authenticated users can add requests')
+		throw new https.HttpsError('unauthenticated', 'only authenticated users can add requests')
 	}
 
 	firestore.doc(`requests/${data.id}`).update({

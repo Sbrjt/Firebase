@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js'
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-performance.js'
+import { getPerformance } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-performance.js'
 
 let config = {
 	apiKey: 'AIzaSyCw3FBktOtoOfr44cDBdIKJrmuHYnW2TqE',
