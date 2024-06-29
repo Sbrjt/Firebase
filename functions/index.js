@@ -6,6 +6,19 @@ import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 const app = initializeApp()
 const firestore = getFirestore(app)
 
+async function sendNotification(item) {
+	const message = {
+		notification: {
+			title: 'New item added',
+			body: item
+		},
+		topic: 'allUsers'
+	}
+
+	const response = await admin.messaging().send(message)
+	console.log('Successfully sent message:', response)
+}
+
 // create user record (upvotes array is unused as of now)
 const newUserSignUp = auth.user().onCreate((usr) => {
 	firestore.doc(`users/${usr.uid}`).set({
@@ -19,18 +32,21 @@ const newUserSignUp = auth.user().onCreate((usr) => {
 })
 
 // adding a request
-const addRequest = https.onCall((data, context) => {
+const addRequest = https.onCall(async (data, context) => {
+	text = data.text
 	if (data === null) {
 		console.log('Warm up')
 		return
 	}
 
 	firestore.collection('requests').add({
-		text: data.text,
+		text: text,
 		upvotes: 0
 	})
 
 	console.log('Text added: ', data.text)
+
+	sendNotification(text)
 
 	return
 })
