@@ -71,5 +71,5 @@ onSnapshot(collection(firestore, 'requests'), (snap) => {
 setInterval(() => {
 	addRequest()
 	addRequestCount()
-	console.log('warm up')
+	// console.log('warm up')
 }, 10000)

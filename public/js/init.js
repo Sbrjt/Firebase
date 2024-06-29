@@ -1,4 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js'
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-performance.js'
 
 let config = {
 	apiKey: 'AIzaSyCw3FBktOtoOfr44cDBdIKJrmuHYnW2TqE',
@@ -10,5 +12,7 @@ let config = {
 }
 
 const app = initializeApp(config)
+const analytics = getAnalytics(app)
+const perf = getPerformance(app)
 
 export { app }
