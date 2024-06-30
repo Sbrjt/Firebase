@@ -13,3 +13,12 @@ Dir structure:
 [Firebase console](https://console.firebase.google.com/u/0/project/fir-functions-d12ef/functions)
 
 [GCP function logs](https://console.cloud.google.com/functions/list?project=fir-functions-d12ef)
+
+Firebase commands:
+
+    firebase deploy --only functions
+    firebase deploy --only functions:myfunc
+    firebase functions:log --only myfunc
+    firebase init hosting:github
+    firebase init emulator  
+    firebase emulators:start
