@@ -9,7 +9,7 @@ const addToken = httpsCallable(functions, 'addToken')
 const btn = document.getElementById('btn')
 
 btn.addEventListener('click', async () => {
-	const registration = await navigator.serviceWorker.register('js/sw.js')
+	const registration = await navigator.serviceWorker.register('sw.js')
 
 	const token = await getToken(messaging, {
 		serviceWorkerRegistration: registration,

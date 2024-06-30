@@ -94,13 +94,3 @@ async function sendNotification(text) {
 }
 
 export { newUserSignUp, addRequest, addRequestCount, addToken }
-
-/* 
-Console commands:
-firebase deploy --only functions
-firebase deploy --only functions:addRequestCount
-firebase functions:log --only helloWorld
-firebase init hosting:github
-firebase init emulator  
-firebase emulators:start
-*/
