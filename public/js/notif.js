@@ -6,18 +6,15 @@ const messaging = getMessaging(app)
 const functions = getFunctions(app)
 const addToken = httpsCallable(functions, 'addToken')
 
-const btn_notif = document.getElementById('btn-notif')
-const btn_get = document.getElementById('btn-get')
+const btn = document.getElementById('btn')
 
-btn_notif.addEventListener('click', async () => {
+btn.addEventListener('click', async () => {
 	const registration = await navigator.serviceWorker.register('js/sw.js')
 
 	const token = await getToken(messaging, {
 		serviceWorkerRegistration: registration,
 		vapidKey: 'BFmRzZwDy_YuE6JFHfliputE_SwNWuMazCokkIt107tN8Ccwis3b0jZJtBvbO85YmNTIJkwCRRFbqpL02P5Ru2I'
 	})
-
-	console.log(token)
 
 	addToken({ token: token })
 })

@@ -2,9 +2,6 @@ self.addEventListener('push', (e) => {
 	const notif = e.data.json().notification
 	const data = e.data.json().data
 
-	console.log(notif)
-	console.log(data)
-
 	e.waitUntil(
 		self.registration.showNotification(notif.title, {
 			body: notif.body,

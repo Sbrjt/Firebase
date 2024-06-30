@@ -77,19 +77,19 @@ const addRequest = https.onCall(async (data, context) => {
 async function sendNotification(text) {
 	const doc = await firestore.doc(`tokens/tokens`).get()
 	const tokens = doc.data().tokens
-	// console.log(tokens)
 
 	const msg = {
 		notification: {
 			title: text,
-			body: 'New item added'
+			body: 'New item added',
+			image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYv3xmElHnvX4tFyEmQCiMN-A4fdWKJ2X13A&s'
 		},
 		data: { url: 'https://fir-functions-d12ef.firebaseapp.com/' },
 		tokens: tokens
 	}
 
 	const response = await getMessaging().sendMulticast(msg)
-	console.log('Sent', response.successCount, 'messages')
+	console.log('Notification: ', 'Sent ', response.successCount, ', Fails ', response.failureCount)
 	return
 }
 
