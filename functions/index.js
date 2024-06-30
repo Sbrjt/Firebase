@@ -1,29 +1,15 @@
-import { https } from 'firebase-functions/v2/functions'
-import { auth } from 'firebase-functions/functions'
+import { auth, https } from 'firebase-functions'
 import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
+import { getMessaging } from 'firebase-admin/messaging'
 
 const app = initializeApp()
 const firestore = getFirestore(app)
 
-async function sendNotification(item) {
-	const message = {
-		notification: {
-			title: 'New item added',
-			body: item
-		},
-		topic: 'allUsers'
-	}
-
-	const response = await admin.messaging().send(message)
-	console.log('Successfully sent message:', response)
-}
-
-// create user record (upvotes array is unused as of now)
+// create user record (unused function)
 const newUserSignUp = auth.user().onCreate((usr) => {
 	firestore.doc(`users/${usr.uid}`).set({
-		email: usr.email,
-		upvotedOn: []
+		email: usr.email
 	})
 
 	console.log('User created: ', usr.email)
@@ -31,22 +17,17 @@ const newUserSignUp = auth.user().onCreate((usr) => {
 	return
 })
 
-// adding a request
-const addRequest = https.onCall(async (data, context) => {
-	text = data.text
-	if (data === null) {
-		console.log('Warm up')
-		return
+// adds user token for receiving notification
+const addToken = https.onCall(async (data, context) => {
+	if (!context.auth) {
+		throw new https.HttpsError('unauthenticated', 'only authenticated users can add requests')
 	}
 
-	firestore.collection('requests').add({
-		text: text,
-		upvotes: 0
+	await firestore.doc(`tokens/tokens`).update({
+		tokens: FieldValue.arrayUnion(data.token)
 	})
 
-	console.log('Text added: ', data.text)
-
-	sendNotification(text)
+	console.log('Token added: ', data.token)
 
 	return
 })
@@ -71,7 +52,48 @@ const addRequestCount = https.onCall((data, context) => {
 	return
 })
 
-export { newUserSignUp, addRequest, addRequestCount }
+// adding a request
+const addRequest = https.onCall(async (data, context) => {
+	if (data === null) {
+		console.log('Warm up')
+		return
+	}
+
+	if (!context.auth) {
+		throw new https.HttpsError('unauthenticated', 'only authenticated users can add requests')
+	}
+
+	firestore.collection('requests').add({
+		text: data.text,
+		upvotes: 0
+	})
+
+	console.log('Text added: ', data.text)
+	await sendNotification(data.text)
+	return
+})
+
+// helper function to send notification when addRequest() is invoked
+async function sendNotification(text) {
+	const doc = await firestore.doc(`tokens/tokens`).get()
+	const tokens = doc.data().tokens
+	// console.log(tokens)
+
+	const msg = {
+		notification: {
+			title: text,
+			body: 'New item added'
+		},
+		data: { url: 'https://fir-functions-d12ef.firebaseapp.com/' },
+		tokens: tokens
+	}
+
+	const response = await getMessaging().sendMulticast(msg)
+	console.log('Sent', response.successCount, 'messages')
+	return
+}
+
+export { newUserSignUp, addRequest, addRequestCount, addToken }
 
 /* 
 Console commands:

@@ -1,6 +1,6 @@
 import { app } from './init.js'
 import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js'
-import { getFirestore, collection, onSnapshot, connectFirestoreEmulator } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
+import { getFirestore, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
 
 const firestore = getFirestore(app)
 
@@ -68,8 +68,9 @@ onSnapshot(collection(firestore, 'requests'), (snap) => {
 })
 
 // warm up the firebase functions
-setInterval(() => {
-	addRequest()
-	addRequestCount()
-	// console.log('warm up')
-}, 10000)
+addRequest()
+addRequestCount()
+// setInterval(() => {
+// 	addRequest()
+// 	addRequestCount()
+// }, 10000)
